@@ -1,0 +1,61 @@
+***  Installation and Configuration of Chrony in Linux (CentOS 7) ***
+
+#################################################################
+  Do all this steps on Server/Master node 
+#################################################################
+
+# yum install chrony
+# vim /etc/chrony.conf
+
+
+	 # line 3: change servers for synchronization
+
+		#server 0.centos.pool.ntp.org iburst
+		#server 1.centos.pool.ntp.org iburst
+		#server 2.centos.pool.ntp.org iburst
+		#server 3.centos.pool.ntp.org iburst
+		  server ntp1.jst.mfeed.ad.jp iburst
+		  server ntp2.jst.mfeed.ad.jp iburst
+		  server ntp3.jst.mfeed.ad.jp iburst
+ 
+	 # line 25: add the network range you allow to receive requests
+	   allow 10.0.0.0/24
+
+
+# systemctl start chronyd
+# systemctl enable chronyd
+# systemctl status chronyd
+# chronyc sources
+
+
+##################################################################
+   Do all this steps on Client/Compute Node  
+##################################################################
+
+
+# yum install chrony 
+# vim /etc/chrony.conf
+		
+		
+		  server [ Master ip ] iburst
+		# server 0.centos.pool.ntp.org iburst
+		# server 1.centos.pool.ntp.org iburst
+		# server 2.centos.pool.ntp.org iburst
+    		# server 3.centos.pool.ntp.org iburst
+
+
+		# allow 192.168.0.0/16
+	
+
+# systemctl start chronyd
+# systemctl enable chronyd
+# systemctl status chronyd
+# systemctl restart chronyd
+# ntpdate -q [ Master ip ]
+# ntpdate -u [ Master ip ]
+
+
+
+##################################################################
+
+
